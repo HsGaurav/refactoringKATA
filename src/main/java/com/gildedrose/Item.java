@@ -4,9 +4,9 @@ public class Item {
 
   public String name;
 
-  public int sellIn;
+  public Integer sellIn;
 
-  public int quality;
+  public Integer quality;
 
   public Item(String name, int sellIn, int quality) {
     this.name = name;

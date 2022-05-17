@@ -1,7 +1,5 @@
 package com.gildedrose;
 
-import com.gildedrose.Item;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ItemTestHelper {
