@@ -1,11 +1,9 @@
 package com.gildedrose;
 
 class GildedRose {
+
+  private static final int LOWEST_QUALITY_VALUE_POSSIBLE = 0;
   Item[] items;
-  public static final String AGED_BRIE = "Aged Brie";
-  public static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
-  public static final String SULFURAS_HAND = "Sulfuras, Hand of Ragnaros";
-  public static final String CONJURED = "Conjured Mana Cake";
 
   public GildedRose(Item... items) {
     this.items = items;
@@ -13,55 +11,25 @@ class GildedRose {
 
   public void updateQuality() {
     for (Item item : items) {
-      updateItemQuality(item);
+      customisedItem(item).updateState();
+      if (hasReachedLowestQualityValue(item)) {
+        item.quality = LOWEST_QUALITY_VALUE_POSSIBLE;
+      } else if (hasReachedHighestQualityValue(item)) {
+        item.quality = QualityValues.highestValuePossible(item);
+      }
     }
   }
 
-  private void updateItemQuality(Item item) {
-    boolean isOutOfStock = item.sellIn < 1;
-    int decrement = getDecrement(item, isOutOfStock);
-    boolean nameMatch =
-        !item.name.equals(AGED_BRIE)
-            && !item.name.equals(BACKSTAGE_PASSES)
-            && !item.name.equals(SULFURAS_HAND);
-
-    if (nameMatch) {
-      adjustQuality(item, decrement);
-    }
-    if (item.name.equals(AGED_BRIE)) {
-      int adjustment = isOutOfStock ? 2 : 1;
-      adjustQuality(item, adjustment);
-    }
-    if (item.name.equals(BACKSTAGE_PASSES)) {
-      backstagePassAdjustment(item, isOutOfStock);
-    }
-    if (!item.name.equals(SULFURAS_HAND)) {
-      item.sellIn = item.sellIn - 1;
-    }
+  private CustomisedItem customisedItem(Item item) {
+    return new CustomisedItemFactory(item).customiseItem(item);
   }
 
-  private void backstagePassAdjustment(Item item, boolean isOutOfStock) {
-    adjustQuality(item, 1);
-    if (item.sellIn < 11) {
-      adjustQuality(item, 1);
-    }
-    if (item.sellIn < 6) {
-      adjustQuality(item, 1);
-    }
-    if (isOutOfStock) {
-      item.quality = 0;
-    }
+  private boolean hasReachedLowestQualityValue(Item item) {
+    return item.quality < LOWEST_QUALITY_VALUE_POSSIBLE;
   }
 
-  private int getDecrement(Item item, boolean isOutOfStock) {
-    int decrement = item.name.equals(CONJURED) ? -2 : -1;
-    return isOutOfStock ? decrement * 2 : decrement;
-  }
-
-  private void adjustQuality(Item item, int adjustment) {
-    if (item.quality < 50 && item.quality > 0) {
-      item.quality = item.quality + adjustment;
-    }
+  private boolean hasReachedHighestQualityValue(Item item) {
+    return item.quality > QualityValues.highestValuePossible(item);
   }
 
   public Item[] getItems() {

@@ -1,6 +1,6 @@
 package com.gildedrose;
 
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.gildedrose.ItemTestHelper.assertItemEquals;
 

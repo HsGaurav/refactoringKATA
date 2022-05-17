@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static com.gildedrose.ItemTestHelper.assertItemEquals;
 
-public class SulfurasTest {
+class SulfurasTest {
 
   @Test
-  public void item_Sulfuras_neverChanges() {
+  void item_Sulfuras_neverChanges() {
     GildedRose app = new GildedRose(new Item("Sulfuras, Hand of Ragnaros", 100, 100));
 
     app.updateQuality();
