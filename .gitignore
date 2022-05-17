@@ -1,0 +1,22 @@
+.idea/
+*.iml
+target/
+
+.classpath
+.project
+bin/
+.settings/
+
+# Gradle
+.gradle
+/build/
+
+Thumbs.db
+.DS_Store
+build/
+out/
+.idea
+*.ipr
+*.iws
+.settings
+.factorypath
